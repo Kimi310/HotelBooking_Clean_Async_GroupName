@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Mvc", "HotelBooking.Mvc\HotelBooking.Mvc.csproj", "{EBCEE58F-7209-4106-B29D-025BA44C3C3C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.WebApi", "HotelBooking.WebApi\HotelBooking.WebApi.csproj", "{2A98B98E-16D8-4F8D-A2D2-E4C4377CBB30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.CucumberTests", "HotelBooking.CucumberTests\HotelBooking.CucumberTests.csproj", "{60654A0B-3100-4E99-9233-C6FB15096D30}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{2A98B98E-16D8-4F8D-A2D2-E4C4377CBB30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A98B98E-16D8-4F8D-A2D2-E4C4377CBB30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A98B98E-16D8-4F8D-A2D2-E4C4377CBB30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60654A0B-3100-4E99-9233-C6FB15096D30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60654A0B-3100-4E99-9233-C6FB15096D30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60654A0B-3100-4E99-9233-C6FB15096D30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60654A0B-3100-4E99-9233-C6FB15096D30}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
