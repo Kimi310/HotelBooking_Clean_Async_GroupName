@@ -1,0 +1,83 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+  ASPNETCORE_URLS: 'http://+:5000'
+
+steps:
+
+# Restore NuGet dependencies
+- task: DotNetCoreCLI@2
+  displayName: 'Restore Dependencies'
+  inputs:
+    command: 'restore'
+    projects: '**/*.csproj'
+
+# Build the solution or projects
+- task: DotNetCoreCLI@2
+  displayName: 'Build Application'
+  inputs:
+    command: 'build'
+    projects: '**/*.csproj'
+    arguments: '--no-restore --configuration $(buildConfiguration)'
+
+# Run Unit Tests using .NET 10 MTP Syntax
+- task: DotNetCoreCLI@2
+  displayName: 'Run MTP Unit Tests'
+  inputs:
+    command: 'custom'
+    custom: 'test'
+    arguments: '--configuration $(buildConfiguration) --no-build'
+
+# Install Postman CLI
+- task: CmdLine@2
+  displayName: 'Install Postman CLI via npm'
+  inputs:
+    script: |
+      sudo npm install -g postman-cli
+
+# Run each Postman collection against a FRESH Web API instance.
+# Both collections create Room 1 and Room 2, so sharing one running API
+# would give 4 rooms and break the "no room available" tests.
+- task: CmdLine@2
+  displayName: 'Run Postman API tests (fresh API per collection)'
+  inputs:
+    targetType: 'inline'
+    script: |
+      postman --version
+
+      API_DLL="$(Build.SourcesDirectory)/HotelBooking.WebApi/bin/$(buildConfiguration)/HotelBooking.WebApi.dll"
+
+      run_collection() {
+        COLLECTION="$1"
+        shift
+
+        # start API in the background
+        dotnet "$API_DLL" > "$(Agent.TempDirectory)/webapi.log" 2>&1 &
+        API_PID=$!
+
+        # wait up to ~60s for the API to answer
+        i=0
+        while [ $i -lt 30 ]; do
+          if curl -s -o /dev/null http://localhost:5000/rooms; then break; fi
+          sleep 2
+          i=$((i+1))
+        done
+
+        postman collection run "$COLLECTION" -k -r cli "$@"
+        RESULT=$?
+
+        # stop API so the next collection starts with an empty database
+        kill $API_PID 2>/dev/null
+        wait $API_PID 2>/dev/null
+        return $RESULT
+      }
+
+      FAIL=0
+      run_collection "$(Build.SourcesDirectory)/Postman/HotelBooking.postman_collection.json" || FAIL=1
+      run_collection "$(Build.SourcesDirectory)/Postman/HotelBooking_CreateBooking.postman_collection.json" --env-var "baseUrl=http://localhost:5000" || FAIL=1
+      exit $FAIL
