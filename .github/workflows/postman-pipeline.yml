@@ -45,12 +45,23 @@ jobs:
           cat webapi.log
           exit 1
 
-      - name: Install Newman
-        run: npm install -g newman
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: Postman/package-lock.json
+
+      # Newman's version is pinned in Postman/package.json and locked in package-lock.json.
+      # npm ci installs exactly the locked versions; --ignore-scripts blocks install scripts.
+      - name: Install Newman (locked versions, no install scripts)
+        working-directory: Postman
+        run: npm ci --ignore-scripts
 
       - name: Run Postman CreateBooking collection
+        working-directory: Postman
         run: >
-          newman run Postman/HotelBooking_CreateBooking.postman_collection.json
+          npx newman run HotelBooking_CreateBooking.postman_collection.json
           --env-var "baseUrl=http://localhost:5000"
           --insecure
 

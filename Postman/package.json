@@ -1,0 +1,12 @@
+{
+  "name": "hotelbooking-postman-tests",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Runs the Postman collections in CI with Newman (versions locked by package-lock.json)",
+  "scripts": {
+    "test:createbooking": "newman run HotelBooking_CreateBooking.postman_collection.json --env-var baseUrl=http://localhost:5000 --insecure"
+  },
+  "devDependencies": {
+    "newman": "6.2.1"
+  }
+}
