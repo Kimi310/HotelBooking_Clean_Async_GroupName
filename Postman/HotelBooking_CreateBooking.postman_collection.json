@@ -5,7 +5,10 @@
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
-    { "key": "baseUrl", "value": "https://localhost:5001" }
+    {
+      "key": "baseUrl",
+      "value": "https://localhost:5001"
+    }
   ],
   "event": [
     {
@@ -44,31 +47,81 @@
       "item": [
         {
           "name": "rooms - Room 1",
-          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "pm.test(\"Status code is 201\", function () {",
-            "    pm.response.to.have.status(201);",
-            "});"
-          ] } }],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
-            "body": { "mode": "raw", "raw": "{\n    \"description\": \"Room 1\"\n}" },
-            "url": { "raw": "{{baseUrl}}/rooms", "host": ["{{baseUrl}}"], "path": ["rooms"] }
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"description\": \"Room 1\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/rooms",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "rooms"
+              ]
+            }
           },
           "response": []
         },
         {
           "name": "rooms - Room 2",
-          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "pm.test(\"Status code is 201\", function () {",
-            "    pm.response.to.have.status(201);",
-            "});"
-          ] } }],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
-            "body": { "mode": "raw", "raw": "{\n    \"description\": \"Room 2\"\n}" },
-            "url": { "raw": "{{baseUrl}}/rooms", "host": ["{{baseUrl}}"], "path": ["rooms"] }
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"description\": \"Room 2\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/rooms",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "rooms"
+              ]
+            }
           },
           "response": []
         }
@@ -79,74 +132,173 @@
       "item": [
         {
           "name": "Bookings - room available (valid future dates)",
-          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "pm.test(\"Status code is 201\", function () {",
-            "    pm.response.to.have.status(201);",
-            "});",
-            "",
-            "pm.test(\"Response is json\", function () {",
-            "    pm.response.to.be.json;",
-            "});",
-            "",
-            "pm.test(\"Booking is active and assigned to a room\", function () {",
-            "    var jsonData = pm.response.json();",
-            "    pm.expect(jsonData.isActive).to.eql(true);",
-            "    pm.expect(jsonData.roomId).to.be.above(0);",
-            "    pm.collectionVariables.set('createdBookingId', jsonData.id);",
-            "});",
-            "",
-            "pm.test(\"Dates in response match the request\", function () {",
-            "    var jsonData = pm.response.json();",
-            "    pm.expect(jsonData.startDate).to.include(pm.collectionVariables.get('validStart'));",
-            "    pm.expect(jsonData.endDate).to.include(pm.collectionVariables.get('validEnd'));",
-            "});",
-            "",
-            "pm.test(\"Customer id is preserved\", function () {",
-            "    pm.expect(pm.response.json().customerId).to.eql(99);",
-            "});"
-          ] } }],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
-            "body": { "mode": "raw", "raw": "{\n  \"startDate\": \"{{validStart}}\",\n  \"endDate\": \"{{validEnd}}\",\n  \"customerId\": 99\n}", "options": { "raw": { "language": "json" } } },
-            "url": { "raw": "{{baseUrl}}/Bookings", "host": ["{{baseUrl}}"], "path": ["Bookings"] }
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDate\": \"{{validStart}}\",\n  \"endDate\": \"{{validEnd}}\",\n  \"customerId\": 99\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings"
+              ]
+            }
           },
           "response": []
         },
         {
-          "name": "Bookings - single day booking (start = end)",
-          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "pm.test(\"Status code is 201\", function () {",
-            "    pm.response.to.have.status(201);",
-            "});",
-            "",
-            "pm.test(\"Booking is active\", function () {",
-            "    pm.expect(pm.response.json().isActive).to.eql(true);",
-            "});"
-          ] } }],
+          "name": "Bookings - created booking appears in the list",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is json\", function () {",
+                  "    pm.response.to.be.json;",
+                  "});",
+                  "",
+                  "// POST /Bookings returns 201 with an empty body, so the data is verified via the list",
+                  "pm.test(\"Created booking is listed with correct data\", function () {",
+                  "    var start = pm.collectionVariables.get('validStart');",
+                  "    var end = pm.collectionVariables.get('validEnd');",
+                  "    var match = pm.response.json().find(function (b) {",
+                  "        return b.startDate.indexOf(start) === 0 && b.endDate.indexOf(end) === 0 && b.customerId === 99;",
+                  "    });",
+                  "    pm.expect(match, 'booking not found in list').to.exist;",
+                  "    pm.expect(match.isActive).to.eql(true);",
+                  "    pm.expect(match.roomId).to.be.above(0);",
+                  "    pm.collectionVariables.set('createdBookingId', match.id);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
-            "body": { "mode": "raw", "raw": "{\n  \"startDate\": \"{{freeStart}}\",\n  \"endDate\": \"{{freeStart}}\",\n  \"customerId\": 1\n}", "options": { "raw": { "language": "json" } } },
-            "url": { "raw": "{{baseUrl}}/Bookings", "host": ["{{baseUrl}}"], "path": ["Bookings"] }
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/Bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings"
+              ]
+            }
           },
           "response": []
         },
         {
           "name": "bookings/{id} - created booking can be fetched",
-          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "pm.test(\"Status code is 200\", function () {",
-            "    pm.response.to.have.status(200);",
-            "});",
-            "",
-            "pm.test(\"Response has correct booking id\", function () {",
-            "    pm.expect(pm.response.json().id).to.eql(parseInt(pm.collectionVariables.get('createdBookingId')));",
-            "});"
-          ] } }],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has correct booking id\", function () {",
+                  "    pm.expect(pm.response.json().id).to.eql(parseInt(pm.collectionVariables.get('createdBookingId')));",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
-            "url": { "raw": "{{baseUrl}}/Bookings/{{createdBookingId}}", "host": ["{{baseUrl}}"], "path": ["Bookings", "{{createdBookingId}}"] }
+            "url": {
+              "raw": "{{baseUrl}}/Bookings/{{createdBookingId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings",
+                "{{createdBookingId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Bookings - single day booking (start = end)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDate\": \"{{freeStart}}\",\n  \"endDate\": \"{{freeStart}}\",\n  \"customerId\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings"
+              ]
+            }
           },
           "response": []
         }
@@ -157,137 +309,497 @@
       "item": [
         {
           "name": "Bookings - occupy Room 1 (occStart to occEnd)",
-          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "pm.test(\"Status code is 201\", function () {",
-            "    pm.response.to.have.status(201);",
-            "});",
-            "",
-            "pm.test(\"A room is assigned\", function () {",
-            "    var roomId = pm.response.json().roomId;",
-            "    pm.expect(roomId).to.be.above(0);",
-            "    pm.collectionVariables.set('firstOccupiedRoomId', roomId);",
-            "});"
-          ] } }],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
-            "body": { "mode": "raw", "raw": "{\n  \"startDate\": \"{{occStart}}\",\n  \"endDate\": \"{{occEnd}}\",\n  \"customerId\": 1\n}", "options": { "raw": { "language": "json" } } },
-            "url": { "raw": "{{baseUrl}}/Bookings", "host": ["{{baseUrl}}"], "path": ["Bookings"] }
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDate\": \"{{occStart}}\",\n  \"endDate\": \"{{occEnd}}\",\n  \"customerId\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings"
+              ]
+            }
           },
           "response": []
         },
         {
           "name": "Bookings - occupy Room 2 (occStart to occEnd)",
-          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "pm.test(\"Status code is 201\", function () {",
-            "    pm.response.to.have.status(201);",
-            "});",
-            "",
-            "pm.test(\"Assigned room differs from the already occupied room (no overlap in same room)\", function () {",
-            "    var roomId = pm.response.json().roomId;",
-            "    pm.expect(roomId).to.be.above(0);",
-            "    pm.expect(roomId).to.not.eql(pm.collectionVariables.get('firstOccupiedRoomId'));",
-            "});"
-          ] } }],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
-            "body": { "mode": "raw", "raw": "{\n  \"startDate\": \"{{occStart}}\",\n  \"endDate\": \"{{occEnd}}\",\n  \"customerId\": 2\n}", "options": { "raw": { "language": "json" } } },
-            "url": { "raw": "{{baseUrl}}/Bookings", "host": ["{{baseUrl}}"], "path": ["Bookings"] }
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDate\": \"{{occStart}}\",\n  \"endDate\": \"{{occEnd}}\",\n  \"customerId\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Bookings - the two occupying bookings use different rooms",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Both rooms are booked for the occupied period, one booking each\", function () {",
+                  "    var start = pm.collectionVariables.get('occStart');",
+                  "    var end = pm.collectionVariables.get('occEnd');",
+                  "    var occupying = pm.response.json().filter(function (b) {",
+                  "        return b.startDate.indexOf(start) === 0 && b.endDate.indexOf(end) === 0;",
+                  "    });",
+                  "    pm.expect(occupying.length).to.eql(2);",
+                  "    pm.expect(occupying[0].roomId).to.not.eql(occupying[1].roomId);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/Bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings"
+              ]
+            }
           },
           "response": []
         },
         {
           "name": "Bookings - identical period, all rooms occupied",
-          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "pm.test(\"Status code is 409 Conflict\", function () {",
-            "    pm.response.to.have.status(409);",
-            "});",
-            "",
-            "pm.test(\"Response is not a created booking\", function () {",
-            "    pm.expect(pm.response.code).to.not.eql(201);",
-            "});"
-          ] } }],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 409 Conflict\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "",
+                  "pm.test(\"Message says no room was available\", function () {",
+                  "    pm.expect(pm.response.text().toLowerCase()).to.include('no available room');",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
-            "body": { "mode": "raw", "raw": "{\n  \"startDate\": \"{{occStart}}\",\n  \"endDate\": \"{{occEnd}}\",\n  \"customerId\": 3\n}", "options": { "raw": { "language": "json" } } },
-            "url": { "raw": "{{baseUrl}}/Bookings", "host": ["{{baseUrl}}"], "path": ["Bookings"] }
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDate\": \"{{occStart}}\",\n  \"endDate\": \"{{occEnd}}\",\n  \"customerId\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings"
+              ]
+            }
           },
           "response": []
         },
         {
           "name": "Bookings - period fully inside occupied period",
-          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "pm.test(\"Status code is 409 Conflict\", function () {",
-            "    pm.response.to.have.status(409);",
-            "});"
-          ] } }],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 409 Conflict\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
-            "body": { "mode": "raw", "raw": "{\n  \"startDate\": \"{{insideStart}}\",\n  \"endDate\": \"{{insideEnd}}\",\n  \"customerId\": 3\n}", "options": { "raw": { "language": "json" } } },
-            "url": { "raw": "{{baseUrl}}/Bookings", "host": ["{{baseUrl}}"], "path": ["Bookings"] }
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDate\": \"{{insideStart}}\",\n  \"endDate\": \"{{insideEnd}}\",\n  \"customerId\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings"
+              ]
+            }
           },
           "response": []
         },
         {
           "name": "Bookings - starts before, ends inside occupied period",
-          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "pm.test(\"Status code is 409 Conflict\", function () {",
-            "    pm.response.to.have.status(409);",
-            "});"
-          ] } }],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 409 Conflict\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
-            "body": { "mode": "raw", "raw": "{\n  \"startDate\": \"{{overlapStartBefore}}\",\n  \"endDate\": \"{{overlapEndInside}}\",\n  \"customerId\": 3\n}", "options": { "raw": { "language": "json" } } },
-            "url": { "raw": "{{baseUrl}}/Bookings", "host": ["{{baseUrl}}"], "path": ["Bookings"] }
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDate\": \"{{overlapStartBefore}}\",\n  \"endDate\": \"{{overlapEndInside}}\",\n  \"customerId\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings"
+              ]
+            }
           },
           "response": []
         },
         {
           "name": "Bookings - starts inside, ends after occupied period",
-          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "pm.test(\"Status code is 409 Conflict\", function () {",
-            "    pm.response.to.have.status(409);",
-            "});"
-          ] } }],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 409 Conflict\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
-            "body": { "mode": "raw", "raw": "{\n  \"startDate\": \"{{overlapStartInside}}\",\n  \"endDate\": \"{{overlapEndAfter}}\",\n  \"customerId\": 3\n}", "options": { "raw": { "language": "json" } } },
-            "url": { "raw": "{{baseUrl}}/Bookings", "host": ["{{baseUrl}}"], "path": ["Bookings"] }
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDate\": \"{{overlapStartInside}}\",\n  \"endDate\": \"{{overlapEndAfter}}\",\n  \"customerId\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings"
+              ]
+            }
           },
           "response": []
         },
         {
           "name": "Bookings - period surrounding occupied period",
-          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "pm.test(\"Status code is 409 Conflict\", function () {",
-            "    pm.response.to.have.status(409);",
-            "});"
-          ] } }],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 409 Conflict\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
-            "body": { "mode": "raw", "raw": "{\n  \"startDate\": \"{{overlapStartBefore}}\",\n  \"endDate\": \"{{overlapEndAfter}}\",\n  \"customerId\": 3\n}", "options": { "raw": { "language": "json" } } },
-            "url": { "raw": "{{baseUrl}}/Bookings", "host": ["{{baseUrl}}"], "path": ["Bookings"] }
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDate\": \"{{overlapStartBefore}}\",\n  \"endDate\": \"{{overlapEndAfter}}\",\n  \"customerId\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Bookings - single day on first occupied day (occStart)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Both rooms are booked for occStart..occEnd (inclusive), so a one-day booking on the boundary must be rejected",
+                  "pm.test(\"Status code is 409 Conflict\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDate\": \"{{occStart}}\",\n  \"endDate\": \"{{occStart}}\",\n  \"customerId\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Bookings - single day on last occupied day (occEnd)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Both rooms are booked for occStart..occEnd (inclusive), so a one-day booking on the boundary must be rejected",
+                  "pm.test(\"Status code is 409 Conflict\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDate\": \"{{occEnd}}\",\n  \"endDate\": \"{{occEnd}}\",\n  \"customerId\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings"
+              ]
+            }
           },
           "response": []
         },
         {
           "name": "Bookings - free period after occupied dates still succeeds",
-          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "pm.test(\"Status code is 201\", function () {",
-            "    pm.response.to.have.status(201);",
-            "});"
-          ] } }],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
-            "body": { "mode": "raw", "raw": "{\n  \"startDate\": \"{{freeStart}}\",\n  \"endDate\": \"{{freeEnd}}\",\n  \"customerId\": 3\n}", "options": { "raw": { "language": "json" } } },
-            "url": { "raw": "{{baseUrl}}/Bookings", "host": ["{{baseUrl}}"], "path": ["Bookings"] }
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDate\": \"{{freeStart}}\",\n  \"endDate\": \"{{freeEnd}}\",\n  \"customerId\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings"
+              ]
+            }
           },
           "response": []
         }
@@ -298,77 +810,227 @@
       "item": [
         {
           "name": "Bookings - start date is today",
-          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "// Manager throws ArgumentException: start date must be in the future",
-            "pm.test(\"Booking is rejected (4xx/5xx), not created\", function () {",
-            "    pm.expect(pm.response.code).to.be.within(400, 599);",
-            "});"
-          ] } }],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Manager throws ArgumentException: start date must be in the future",
+                  "pm.test(\"Booking is rejected (4xx/5xx), not created\", function () {",
+                  "    pm.expect(pm.response.code).to.be.within(400, 599);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
-            "body": { "mode": "raw", "raw": "{\n  \"startDate\": \"{{today}}\",\n  \"endDate\": \"{{validEnd}}\",\n  \"customerId\": 1\n}", "options": { "raw": { "language": "json" } } },
-            "url": { "raw": "{{baseUrl}}/Bookings", "host": ["{{baseUrl}}"], "path": ["Bookings"] }
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDate\": \"{{today}}\",\n  \"endDate\": \"{{validEnd}}\",\n  \"customerId\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings"
+              ]
+            }
           },
           "response": []
         },
         {
           "name": "Bookings - start date in the past",
-          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "pm.test(\"Booking is rejected (4xx/5xx), not created\", function () {",
-            "    pm.expect(pm.response.code).to.be.within(400, 599);",
-            "});"
-          ] } }],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Booking is rejected (4xx/5xx), not created\", function () {",
+                  "    pm.expect(pm.response.code).to.be.within(400, 599);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
-            "body": { "mode": "raw", "raw": "{\n  \"startDate\": \"{{pastDate}}\",\n  \"endDate\": \"{{validEnd}}\",\n  \"customerId\": 1\n}", "options": { "raw": { "language": "json" } } },
-            "url": { "raw": "{{baseUrl}}/Bookings", "host": ["{{baseUrl}}"], "path": ["Bookings"] }
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDate\": \"{{pastDate}}\",\n  \"endDate\": \"{{validEnd}}\",\n  \"customerId\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings"
+              ]
+            }
           },
           "response": []
         },
         {
           "name": "Bookings - start date after end date",
-          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "pm.test(\"Booking is rejected (4xx/5xx), not created\", function () {",
-            "    pm.expect(pm.response.code).to.be.within(400, 599);",
-            "});"
-          ] } }],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Booking is rejected (4xx/5xx), not created\", function () {",
+                  "    pm.expect(pm.response.code).to.be.within(400, 599);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
-            "body": { "mode": "raw", "raw": "{\n  \"startDate\": \"{{occEnd}}\",\n  \"endDate\": \"{{occStart}}\",\n  \"customerId\": 1\n}", "options": { "raw": { "language": "json" } } },
-            "url": { "raw": "{{baseUrl}}/Bookings", "host": ["{{baseUrl}}"], "path": ["Bookings"] }
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDate\": \"{{occEnd}}\",\n  \"endDate\": \"{{occStart}}\",\n  \"customerId\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings"
+              ]
+            }
           },
           "response": []
         },
         {
           "name": "Bookings - malformed date format",
-          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "pm.test(\"Status code is 400 Bad Request\", function () {",
-            "    pm.response.to.have.status(400);",
-            "});"
-          ] } }],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
-            "body": { "mode": "raw", "raw": "{\n  \"startDate\": \"not-a-date\",\n  \"endDate\": \"also-not-a-date\",\n  \"customerId\": 1\n}", "options": { "raw": { "language": "json" } } },
-            "url": { "raw": "{{baseUrl}}/Bookings", "host": ["{{baseUrl}}"], "path": ["Bookings"] }
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDate\": \"not-a-date\",\n  \"endDate\": \"also-not-a-date\",\n  \"customerId\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings"
+              ]
+            }
           },
           "response": []
         },
         {
           "name": "Bookings - empty body",
-          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
-            "pm.test(\"Booking is rejected (4xx), not created\", function () {",
-            "    pm.expect(pm.response.code).to.be.within(400, 499);",
-            "});"
-          ] } }],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Booking is rejected (4xx), not created\", function () {",
+                  "    pm.expect(pm.response.code).to.be.within(400, 499);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
-            "body": { "mode": "raw", "raw": "", "options": { "raw": { "language": "json" } } },
-            "url": { "raw": "{{baseUrl}}/Bookings", "host": ["{{baseUrl}}"], "path": ["Bookings"] }
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Bookings"
+              ]
+            }
           },
           "response": []
         }
