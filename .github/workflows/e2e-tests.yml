@@ -1,0 +1,60 @@
+name: E2E Tests (Selenium)
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  selenium-tests:
+    name: Selenium CreateBooking UI tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Build MVC app and Selenium tests
+        run: |
+          dotnet build HotelBooking.Mvc/HotelBooking.Mvc.csproj --configuration Release
+          dotnet build HotelBooking.SeleniumTests/HotelBooking.SeleniumTests.csproj --configuration Release
+
+      # Development mode seeds the 2 rooms + 2 bookings we need for the tests
+      - name: Start MVC app in background
+        env:
+          ASPNETCORE_ENVIRONMENT: Development
+        run: |
+          nohup dotnet run --project HotelBooking.Mvc/HotelBooking.Mvc.csproj \
+            --configuration Release --no-build --urls http://localhost:5002 > mvc.log 2>&1 &
+
+          for i in $(seq 1 30); do
+            if curl -s -o /dev/null http://localhost:5002/Bookings; then
+              echo "MVC app is up"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "MVC app did not start in time. Log:"
+          cat mvc.log
+          exit 1
+
+      # Selenium Manager downloads the matching chromedriver since ubuntu has chrome
+      - name: Run Selenium tests
+        env:
+          HOTELBOOKING_MVC_URL: http://localhost:5002
+        run: dotnet test HotelBooking.SeleniumTests/HotelBooking.SeleniumTests.csproj --configuration Release --no-build
+
+      - name: Upload MVC log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mvc-log
+          path: mvc.log
