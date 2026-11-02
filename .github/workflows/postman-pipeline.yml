@@ -58,10 +58,11 @@ jobs:
         working-directory: Postman
         run: npm ci --ignore-scripts
 
+      # Runs the Newman that npm ci installed (6.2.1) - no npx, so nothing is downloaded at run time
       - name: Run Postman CreateBooking collection
         working-directory: Postman
         run: >
-          npx newman run HotelBooking_CreateBooking.postman_collection.json
+          ./node_modules/.bin/newman run HotelBooking_CreateBooking.postman_collection.json
           --env-var "baseUrl=http://localhost:5000"
           --insecure
 
