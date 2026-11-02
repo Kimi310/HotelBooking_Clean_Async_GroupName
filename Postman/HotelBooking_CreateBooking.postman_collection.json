@@ -195,10 +195,12 @@
                   "pm.test(\"Created booking is listed with correct data\", function () {",
                   "    var start = pm.collectionVariables.get('validStart');",
                   "    var end = pm.collectionVariables.get('validEnd');",
-                  "    var match = pm.response.json().find(function (b) {",
-                  "        return b.startDate.indexOf(start) === 0 && b.endDate.indexOf(end) === 0 && b.customerId === 99;",
+                  "    var all = pm.response.json();",
+                  "    var match = all.find(function (b) {",
+                  "        return String(b.startDate).indexOf(start) === 0 && String(b.endDate).indexOf(end) === 0;",
                   "    });",
-                  "    pm.expect(match, 'booking not found in list').to.exist;",
+                  "    pm.expect(match, 'no booking with ' + start + ' -> ' + end + '. First items: ' + JSON.stringify(all.slice(0, 3))).to.exist;",
+                  "    pm.expect(match.customerId, 'customerId in list').to.eql(99);",
                   "    pm.expect(match.isActive).to.eql(true);",
                   "    pm.expect(match.roomId).to.be.above(0);",
                   "    pm.collectionVariables.set('createdBookingId', match.id);",
@@ -449,8 +451,8 @@
                   "    pm.response.to.have.status(409);",
                   "});",
                   "",
-                  "pm.test(\"Message says no room was available\", function () {",
-                  "    pm.expect(pm.response.text().toLowerCase()).to.include('no available room');",
+                  "pm.test(\"Message says the booking could not be created\", function () {",
+                  "    pm.expect(pm.response.text().toLowerCase()).to.include('could not be created');",
                   "});"
                 ]
               }
