@@ -25,13 +25,11 @@ jobs:
       - name: Build Web API
         run: dotnet build HotelBooking.WebApi/HotelBooking.WebApi.csproj --configuration Release
 
-      # Production + --no-launch-profile: no seed data. The collection creates its own rooms (Setup folder)
-      # and expects an otherwise empty database. Without these, `dotnet run` would use the
-      # Development profile from launchSettings.json and seed 3 rooms + 3 bookings.
-      # It had problems where all the ci's had different seeded data for some reason
+      # Development seeds the customers (ids 1 and 2) and rooms the collection needs.
+      # --no-launch-profile makes sure launchSettings.json can't change the environment or URL.
       - name: Start Web API in background
         env:
-          ASPNETCORE_ENVIRONMENT: Production
+          ASPNETCORE_ENVIRONMENT: Development
         run: |
           nohup dotnet run --project HotelBooking.WebApi/HotelBooking.WebApi.csproj \
             --configuration Release --no-build --no-launch-profile --urls http://localhost:5000 > webapi.log 2>&1 &
