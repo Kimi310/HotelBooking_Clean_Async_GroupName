@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "HotelBooking_CreateBooking",
-    "description": "API tests for POST /Bookings (CreateBooking). Mirrors the scenarios in BookingManagerMoqTests: room available, no room available, overlapping periods and invalid dates. Run the folder in order (Collection Runner) against a fresh database.",
+    "description": "API tests for POST /Bookings (CreateBooking). Run against an API with an EMPTY database (ASPNETCORE_ENVIRONMENT=Production, dotnet run --no-launch-profile): the Setup folder creates the 2 rooms the tests rely on, so seeded rooms/bookings (Development) break the 'no room available' tests. Run the folders in order.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -199,7 +199,7 @@
                   "    var match = all.find(function (b) {",
                   "        return String(b.startDate).indexOf(start) === 0 && String(b.endDate).indexOf(end) === 0;",
                   "    });",
-                  "    pm.expect(match, 'no booking with ' + start + ' -> ' + end + '. First items: ' + JSON.stringify(all.slice(0, 3))).to.exist;",
+                  "    pm.expect(match, 'no booking with ' + start + ' -> ' + end + '. Bookings in the API: ' + all.map(function (b) { return b.id + ':' + b.startDate + '->' + b.endDate + ':room' + b.roomId; }).join(' | ')).to.exist;",
                   "    pm.expect(match.customerId, 'customerId in list').to.eql(99);",
                   "    pm.expect(match.isActive).to.eql(true);",
                   "    pm.expect(match.roomId).to.be.above(0);",
