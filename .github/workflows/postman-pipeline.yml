@@ -1,0 +1,74 @@
+name: Postman API Tests
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  postman-api-tests:
+    name: Postman CreateBooking API tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Build Web API
+        run: dotnet build HotelBooking.WebApi/HotelBooking.WebApi.csproj --configuration Release
+
+      # Development seeds the customers (ids 1 and 2) and rooms the collection needs.
+      # --no-launch-profile makes sure launchSettings.json can't change the environment or URL.
+      - name: Start Web API in background
+        env:
+          ASPNETCORE_ENVIRONMENT: Development
+        run: |
+          nohup dotnet run --project HotelBooking.WebApi/HotelBooking.WebApi.csproj \
+            --configuration Release --no-build --no-launch-profile --urls http://localhost:5000 > webapi.log 2>&1 &
+
+          for i in $(seq 1 30); do
+            if curl -s -o /dev/null http://localhost:5000/rooms; then
+              echo "Web API is up"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Web API did not start in time. Log:"
+          cat webapi.log
+          exit 1
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: Postman/package-lock.json
+
+      # Newman's version is pinned in Postman/package.json and locked in package-lock.json.
+      # npm ci installs exactly the locked versions; --ignore-scripts blocks install scripts.
+      - name: Install Newman (locked versions, no install scripts)
+        working-directory: Postman
+        run: npm ci --ignore-scripts
+
+      # Runs the Newman that npm ci installed (6.2.1) - no npx, so nothing is downloaded at run time
+      - name: Run Postman CreateBooking collection
+        working-directory: Postman
+        run: >
+          ./node_modules/.bin/newman run HotelBooking_CreateBooking.postman_collection.json
+          --env-var "baseUrl=http://localhost:5000"
+          --insecure
+
+      - name: Upload Web API log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: webapi-log
+          path: webapi.log

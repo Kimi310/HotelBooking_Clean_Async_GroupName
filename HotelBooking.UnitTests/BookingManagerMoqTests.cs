@@ -104,15 +104,23 @@ namespace HotelBooking.UnitTests
         [Fact]
         public async Task FindAvailableRoom_RoomAvailable_QueriesBothRepositories()
         {
-            // Arrange
-            var date = DateTime.Today.AddDays(1);
+          // Arrange
+          var date = DateTime.Today.AddDays(1);
 
-            // Act
-            await bookingManager.FindAvailableRoom(date, date);
+          // Act
+          await bookingManager.FindAvailableRoom(date, date);
 
-            // Assert
-            bookingRepositoryMock.Verify(r => r.GetAllAsync(), Times.Once);
-            roomRepositoryMock.Verify(r => r.GetAllAsync(), Times.Once);
+          // Assert
+          bookingRepositoryMock.Verify(r => r.GetAllAsync(), Times.Once);
+          roomRepositoryMock.Verify(r => r.GetAllAsync(), Times.Once);
+        }
+
+        [Fact]
+        public async Task FindAvailableRoom_SingleDayOnLastOccupiedDay_ReturnsMinusOne()
+        {
+          var roomId = await bookingManager.FindAvailableRoom(occupiedEnd, occupiedEnd);
+    
+          Assert.Equal(-1, roomId);
         }
 
         #endregion
@@ -241,4 +249,3 @@ namespace HotelBooking.UnitTests
         #endregion
     }
 }
-
